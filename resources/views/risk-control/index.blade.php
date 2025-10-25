@@ -28,11 +28,11 @@
                     <tr>
                         <th style="width: 10px">No</th>
                         <th>MAH ID</th>
-                        <th>Overall (MAH)</th>
+                        <th>Status MAH</th>
                         <th>Action Plan</th>
                         <th>Action Progress</th>
                         <th>Location</th>
-                        <th>Status (Indv.)</th>
+                        <th>Status Act Plan</th>
                         <th style="width: 30px">Eng</th>
                         <th style="width: 30px">Proc</th>
                         <th style="width: 30px">Cons</th>

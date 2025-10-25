@@ -302,19 +302,9 @@ return [
         // Sidebar items:
         [
             'text' => 'Dashboard',
+            'url'  => 'home', // Atau '/' atau route('dashboard')
             'icon' => 'fas fa-fw fa-tachometer-alt',
-            'submenu' => [ // <-- Tambahkan submenu
-                [
-                    'text' => 'Dashboard Utama',
-                    'url'  => 'home', // Atau '/'
-                    'icon_color' => 'cyan', // Warna ikon opsional
-                ],
-                [
-                    'text' => 'Dashboard Risk Profile', // <-- Menu baru
-                    'route'  => 'dashboard.risk_profile', // <-- Gunakan nama route
-                    'icon_color' => 'yellow', // Warna ikon opsional
-                ],
-            ],
+            // HAPUS BAGIAN 'submenu' => [ ... ]
         ],
 
         ['header' => 'MANAJEMEN RISIKO'], // Header pemisah
@@ -331,6 +321,22 @@ return [
                 [
                     'text' => 'Lihat Semua MAH',
                     'url'  => 'mah-register',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Barrier Assessment',
+            'icon' => 'fas fa-fw fa-shield-virus', // Ganti ikon jika perlu
+            'submenu' => [
+                [
+                    'text' => 'Input Assessment',
+                    'route'  => 'barrier-assessments.create', // Gunakan nama route
+                    'icon' => 'fas fa-fw fa-plus-circle',
+                ],
+                [
+                    'text' => 'Lihat Semua Assessment',
+                    'route'  => 'barrier-assessments.index', // Gunakan nama route
                     'icon' => 'fas fa-fw fa-list',
                 ],
             ],

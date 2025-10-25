@@ -26,8 +26,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="mah_id">MAH ID</label>
-                        {{-- Tambahkan 'value' untuk mengisi data yang ada --}}
-                        <input type="text" class="form-control" name="mah_id" value="{{ $register->mah_id }}" required>
+                        {{-- Tambahkan 'readonly' --}}
+                        <input type="text" class="form-control" name="mah_id" value="{{ $register->mah_id }}" readonly required>
                     </div>
                 </div>
                 <div class="col-md-6">

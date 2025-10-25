@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RiskControlController;
 use App\Http\Controllers\MahRegisterController;
+use App\Http\Controllers\BarrierAssessmentController;
 use Illuminate\Support\Facades\Route;
 
 // Biarkan route 'Auth' di luar. 
@@ -24,6 +25,5 @@ Route::middleware(['auth'])->group(function () {
     // Rute CRUD Risk Control
     Route::resource('risk-control', RiskControlController::class);
 
-    // Route for the new Risk Profile Dashboard
-    Route::get('/dashboard/risk-profile', [DashboardController::class, 'riskProfileDashboard'])->name('dashboard.risk_profile');
+    Route::resource('barrier-assessments', BarrierAssessmentController::class);
 });

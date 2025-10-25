@@ -25,16 +25,35 @@ class MahRegisterController extends Controller
      */
     public function create()
     {
-        // Data untuk dropdown
+        // --- LOGIKA GENERATE ID OTOMATIS (BARU) ---
+        $prefix = 'MAH-BJM-';
+        $lastMah = MahRegister::where('mah_id', 'LIKE', $prefix . '%') // Cari yang cocok prefix
+            ->orderBy('mah_id', 'desc') // Urutkan dari terbesar
+            ->first(); // Ambil yang paling atas
+
+        $nextNumber = 1; // Default jika belum ada data
+        if ($lastMah) {
+            // Ambil bagian angka dari ID terakhir (misal: '018' dari 'MAH-BJM-018')
+            $lastNumber = (int) substr($lastMah->mah_id, strlen($prefix));
+            $nextNumber = $lastNumber + 1;
+        }
+
+        // Format angka menjadi 3 digit dengan leading zero (misal: 1 -> '001', 19 -> '019')
+        $nextMahId = $prefix . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        // --- AKHIR LOGIKA GENERATE ID ---
+
+
+        // Data untuk dropdown (tetap sama)
         $hazard_categories = $this->getHazardCategories();
         $causes = $this->getCauses();
         $top_events = $this->getTopEvents();
 
-        // Kirim data ini ke view
+        // Kirim data ini ke view, termasuk ID baru
         return view('mah.create', [
             'hazard_categories' => $hazard_categories,
             'causes' => $causes,
             'top_events' => $top_events,
+            'next_mah_id' => $nextMahId, // <-- Kirim ID baru ke view
         ]);
     }
 

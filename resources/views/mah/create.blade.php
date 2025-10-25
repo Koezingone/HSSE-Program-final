@@ -62,8 +62,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="mah_id">MAH ID <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="mah_id" id="mah_id" placeholder="Contoh: MAH-BJM-001" required>
+                        <label for="mah_id">MAH ID (Otomatis)</label>
+                        {{-- Tambahkan value dan readonly --}}
+                        <input type="text" class="form-control" name="mah_id" placeholder="Akan terisi otomatis"
+                            value="{{ $next_mah_id }}" readonly required>
+                        {{-- 'readonly' membuat field tidak bisa diubah user --}}
                     </div>
                 </div>
                 <div class="col-md-6">
