@@ -19,6 +19,9 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Tabel Data MAH Register</h3>
+        <a href="{{ route('mah-register.printPdf') }}" class="btn btn-primary btn-sm float-right" target="_blank">
+            <i class="fas fa-fw fa-print"></i> Cetak Laporan Lengkap
+        </a>
     </div>
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
@@ -90,7 +93,37 @@
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            // Modifikasi bagian 'buttons'
+            "buttons": [
+                "copy",
+                "csv",
+                "excel",
+                // --- INI BAGIAN YANG BARU ---
+                {
+                    extend: 'collection',
+                    text: 'PDF', // Teks pada tombol dropdown utama
+                    buttons: [{
+                            extend: 'pdf',
+                            text: 'PDF Portrait',
+                            orientation: 'portrait', // Orientasi portrait
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6]
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'PDF Landscape',
+                            orientation: 'landscape', // Orientasi landscape
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6]
+                            }
+                        }
+                    ]
+                },
+                // --- AKHIR BAGIAN BARU ---
+                "print",
+                "colvis"
+            ]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

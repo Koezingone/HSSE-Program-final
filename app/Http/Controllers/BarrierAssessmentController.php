@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BarrierAssessment;
-use App\Http\Controllers\BarrierAssessmentController;
 
 class BarrierAssessmentController extends Controller
 {
@@ -210,20 +209,13 @@ class BarrierAssessmentController extends Controller
                 ['name' => 'SP-02 Oil Catcher System', 'type' => 'Hardware'],
                 ['name' => 'FP-07 Cooling System', 'type' => 'Hardware'],
                 ['name' => 'Prosedur Pengukuran Grounding Secara Periodik', 'type' => 'Human'],
-                ['name' => 'Prosedur Sistem Ijin Kerja Aman (SIKA)', 'type' => 'Human'],
-                ['name' => 'Prosedur Management of Change (MOC)', 'type' => 'Human'],
-                ['name' => 'Prosedur Isolation Energi (LOTO)', 'type' => 'Human'],
                 ['name' => 'Electrical  Hazardous Area Classification (EHAC)', 'type' => 'Human'],
                 ['name' => 'Security Guard', 'type' => 'Human'],
-                ['name' => 'Pipeline ROW (Cleareance & maintenance). ', 'type' => 'Human'],
-                ['name' => 'Prosedur Pengukuran Grounding Secara Periodik. ', 'type' => 'Human'],
-                ['name' => 'Aturan jarak aman tangki (Tank Spacing) ', 'type' => 'Human'],
-                ['name' => 'Aturan Safety Distance ', 'type' => 'Human'],
-                ['name' => 'Prosedur Isolation dan Pengendalian Produk (Manual Operasi Intertank) ', 'type' => 'Human'],
-                ['name' => 'Prosedur Pengosongan Tanki ', 'type' => 'Human'],
-                ['name' => 'Organisasi & Personel Pengendalian Tanggap Darurat yang Kompeten ', 'type' => 'Human'],
-                ['name' => 'Pedoman Pengendalian Keadaan Darurat ', 'type' => 'Human'],
-                ['name' => 'Bussiness Continuity Plan/Management ', 'type' => 'Human'],
+                ['name' => 'Pipeline ROW (Cleareance & maintenance).', 'type' => 'Human'],
+                ['name' => 'Aturan jarak aman tangki (Tank Spacing)', 'type' => 'Human'],
+                ['name' => 'Aturan Safety Distance', 'type' => 'Human'],
+                ['name' => 'Prosedur Isolation dan Pengendalian Produk (Manual Operasi Intertank)', 'type' => 'Human'],
+                ['name' => 'Prosedur Pengosongan Tanki', 'type' => 'Human'],
             ],
             'Emergency Response' => [
                 ['name' => 'ER-01 Emergency Communication (HT)', 'type' => 'Hardware'],

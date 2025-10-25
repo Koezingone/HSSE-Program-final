@@ -7,6 +7,8 @@ use App\Models\RiskControl;
 use App\Models\BarrierAssessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class DashboardController extends Controller
 {
@@ -223,13 +225,13 @@ class DashboardController extends Controller
 
             // Jika tidak ditemukan kategori yang cocok, log peringatannya
             if (!$categoryFound) {
-                \Log::warning('Barrier not matched:', ['name' => $assessment->specific_barrier]);
+                Log::warning('Barrier not matched:', ['name' => $assessment->specific_barrier]);
                 continue; // Lanjut ke assessment berikutnya
             }
 
             $barrierData = [
                 'name' => $assessment->specific_barrier,
-                'percentage' => $assessment->percentage ?? 0,
+                'percentage' => $assessment->percentage, // <-- Hapus '?? 0'
                 'type' => $assessment->barrier_type ?? 'Unknown',
             ];
 
@@ -257,6 +259,12 @@ class DashboardController extends Controller
         $barrierPerfHumanValues = $barrierData->where('barrier_type', 'Human')->pluck('avg_percentage')->values();
 
 
+        // 8c. DATA UNTUK TABEL PROGRESS ACTION PLAN (OPEN)
+        $openActionPlans = \App\Models\RiskControl::with('mahRegister') // Muat relasi mahRegister
+            ->where('action_status', 'OPEN')
+            ->orderBy('persentase', 'asc') // Urutkan dari progress terkecil
+            ->get(['mah_register_id', 'action_plan', 'persentase']);
+
         // 9. KIRIM SEMUA DATA KE VIEW
         return view('dashboard', [
             'total_mah' => $total_mah,
@@ -280,6 +288,8 @@ class DashboardController extends Controller
             'barrierPerfLabels' => json_encode($barrierPerfLabels),
             'barrierPerfHardwareValues' => json_encode($barrierPerfHardwareValues),
             'barrierPerfHumanValues' => json_encode($barrierPerfHumanValues),
+
+            'openActionPlans' => $openActionPlans,
         ]);
     }
 
@@ -311,7 +321,7 @@ class DashboardController extends Controller
                 ['name' => 'SS-01 Tangki Produk', 'type' => 'Hardware'],
                 ['name' => 'SS-02 Pipa Produk', 'type' => 'Hardware'],
                 ['name' => 'RE-01 Pompa Produk', 'type' => 'Hardware'],
-                ['name' => 'Program Periodically Inspection ', 'type' => 'Human'],
+                ['name' => 'Program Periodically Inspection', 'type' => 'Human'],
                 ['name' => 'Program Integrity Management / RBI', 'type' => 'Human'],
                 ['name' => 'Pipeline Pigging Programme', 'type' => 'Human'],
                 ['name' => 'Programme Condition Monitoring (for rotating Equipment) / LTSA', 'type' => 'Human'],
@@ -361,20 +371,13 @@ class DashboardController extends Controller
                 ['name' => 'SP-02 Oil Catcher System', 'type' => 'Hardware'],
                 ['name' => 'FP-07 Cooling System', 'type' => 'Hardware'],
                 ['name' => 'Prosedur Pengukuran Grounding Secara Periodik', 'type' => 'Human'],
-                ['name' => 'Prosedur Sistem Ijin Kerja Aman (SIKA)', 'type' => 'Human'],
-                ['name' => 'Prosedur Management of Change (MOC)', 'type' => 'Human'],
-                ['name' => 'Prosedur Isolation Energi (LOTO)', 'type' => 'Human'],
                 ['name' => 'Electrical  Hazardous Area Classification (EHAC)', 'type' => 'Human'],
                 ['name' => 'Security Guard', 'type' => 'Human'],
-                ['name' => 'Pipeline ROW (Cleareance & maintenance). ', 'type' => 'Human'],
-                ['name' => 'Prosedur Pengukuran Grounding Secara Periodik. ', 'type' => 'Human'],
-                ['name' => 'Aturan jarak aman tangki (Tank Spacing) ', 'type' => 'Human'],
-                ['name' => 'Aturan Safety Distance ', 'type' => 'Human'],
-                ['name' => 'Prosedur Isolation dan Pengendalian Produk (Manual Operasi Intertank) ', 'type' => 'Human'],
-                ['name' => 'Prosedur Pengosongan Tanki ', 'type' => 'Human'],
-                ['name' => 'Organisasi & Personel Pengendalian Tanggap Darurat yang Kompeten ', 'type' => 'Human'],
-                ['name' => 'Pedoman Pengendalian Keadaan Darurat ', 'type' => 'Human'],
-                ['name' => 'Bussiness Continuity Plan/Management ', 'type' => 'Human'],
+                ['name' => 'Pipeline ROW (Cleareance & maintenance).', 'type' => 'Human'],
+                ['name' => 'Aturan jarak aman tangki (Tank Spacing)', 'type' => 'Human'],
+                ['name' => 'Aturan Safety Distance', 'type' => 'Human'],
+                ['name' => 'Prosedur Isolation dan Pengendalian Produk (Manual Operasi Intertank)', 'type' => 'Human'],
+                ['name' => 'Prosedur Pengosongan Tanki', 'type' => 'Human'],
             ],
             'Emergency Response' => [
                 ['name' => 'ER-01 Emergency Communication (HT)', 'type' => 'Hardware'],

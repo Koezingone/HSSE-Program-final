@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MahRegister;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MahRegisterController extends Controller
 {
@@ -203,5 +204,29 @@ class MahRegisterController extends Controller
             'Workers drowned',
             'Other',
         ];
+    }
+
+    // --- METHOD BARU UNTUK PRINT PDF ---
+    public function printPdf()
+    {
+        // 1. Ambil semua data register
+        // (Saya asumsikan model Anda punya semua kolom yang Anda sebutkan)
+        $registers = MahRegister::all();
+
+        // 2. Data yang akan dikirim ke view PDF
+        $data = [
+            'title' => 'REGISTER MAH INTEGRATED TERMINAL BANJARMASIN',
+            'date' => date('d/m/Y H:i:s'),
+            'registers' => $registers
+        ];
+
+        // 3. Muat view Blade-nya
+        $pdf = Pdf::loadView('mah.report-pdf', $data);
+
+        // 4. Atur orientasi kertas (karena kolomnya banyak, kita WAJIB pakai landscape)
+        $pdf->setPaper('a4', 'landscape');
+
+        // 5. Download PDF-nya dengan nama file kustom
+        return $pdf->download('laporan-lengkap-mah-register-' . date('Ymd') . '.pdf');
     }
 }

@@ -446,6 +446,80 @@
 </div>
 {{-- AKHIR KARTU BARRIER --}}
 
+{{-- (DIUBAH) BARIS 6: GRAFIK STATUS ACTION PLAN (Pindah ke sini) --}}
+<div class="row">
+    <div class="col-md-12"> {{-- Lebar jadi penuh --}}
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Status Action Plan</h3>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 300px; max-width: 100%;"></canvas> {{-- Tinggi bisa disesuaikan --}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- AKHIR BARIS 6 --}}
+
+
+{{-- (BARU) BARIS UNTUK TABEL ACTION PLAN OPEN --}}
+<div class="row">
+    <div class="col-12">
+        {{-- Gunakan card-warning agar cocok dengan status 'OPEN'/'ON PROGRESS' --}}
+        <div class="card card-warning card-outline">
+            <div class="card-header">
+                <h3 class="card-title">Daftar Progress Action Plan</h3>
+            </div>
+            <div class="card-body p-0"> {{-- p-0 agar tabel terlihat rapi --}}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">MAH ID</th>
+                                <th>Action Plan Description</th>
+                                <th style="width: 20%;">Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- Loop data dari controller --}}
+                            @forelse($openActionPlans as $action)
+                            <tr>
+                                {{-- Tampilkan MAH ID dari relasi --}}
+                                <td>{{ $action->mahRegister->mah_id ?? 'N/A' }}</td>
+                                {{-- Tampilkan nama action plan --}}
+                                <td>{{ $action->action_plan }}</td>
+                                {{-- Tampilkan progress bar --}}
+                                <td>
+                                    @php $percentageValue = intval($action->persentase); @endphp
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            aria-valuenow="{{ $percentageValue }}" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: {{ $percentageValue }}%">
+                                        </div>
+                                    </div>
+                                    <small class="d-block text-center">{{ $action->persentase }}</small>
+                                </td>
+                            </tr>
+                            @empty
+                            {{-- Jika tidak ada data OPEN --}}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-3">
+                                    <i class="fas fa-check-circle text-success fa-lg"></i>
+                                    <p classam="mb-0 mt-1">Semua Action Plan sudah CLOSE.</p>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- AKHIR BARIS TABEL --}}
+
 
 {{-- (DIUBAH) BARIS 5: PETA LOKASI (Pindah ke sini) --}}
 <div class="row">
@@ -462,24 +536,8 @@
 </div>
 {{-- AKHIR BARIS 5 --}}
 
-{{-- (DIUBAH) BARIS 6: GRAFIK STATUS ACTION PLAN (Pindah ke sini) --}}
-<div class="row">
-    <div class="col-md-12"> {{-- Lebar jadi penuh --}}
-        <div class="card card-success">
-            <div class="card-header">
-                <h3 class="card-title">Status Action Plan (Individual)</h3>
-            </div>
-            <div class="card-body">
-                <div class="chart">
-                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 300px; max-width: 100%;"></canvas> {{-- Tinggi bisa disesuaikan --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{{-- AKHIR BARIS 6 --}}
 
-{{-- (DIKEMBALIKAN) BARIS 5: BAR CHARTS per HAZARD CATEGORY (Residual vs Final) --}}
+{{-- (DIKEMBALIKAN) BARIS 5: BAR CHARTS per HAZARD CATEGORY (Residual dan Final) --}}
 <div class="row">
     <div class="col-12">
         <div class="card card-primary">
